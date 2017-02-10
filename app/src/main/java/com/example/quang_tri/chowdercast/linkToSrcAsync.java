@@ -21,6 +21,7 @@ public class linkToSrcAsync extends AsyncTask<String, Void, ArrayList<String>> {
     private Document doc;
     private ArrayList<String> linkToSrc;
 
+    //Gets the links that lead to the source of the video
     @Override
     protected ArrayList<String> doInBackground(String... params) {
         for(String x : params){
@@ -31,7 +32,7 @@ public class linkToSrcAsync extends AsyncTask<String, Void, ArrayList<String>> {
             }
         }
         linkToSrc = new ArrayList<>();
-        Elements episodes = doc.getElementsByTag("li");
+        Elements episodes = doc.select("div#videos li a");
 
         for(Element links : episodes){
             linkToSrc.add(links.attr("abs:href"));
