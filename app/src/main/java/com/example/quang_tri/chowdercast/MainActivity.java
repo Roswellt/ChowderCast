@@ -45,7 +45,15 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         try {
                             linkToSrc = new linkToSrcAsync().execute("http://www.toonova.net/chowder").get();
-                            Toast.makeText(MainActivity.this, linkToSrc.get(0), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, linkToSrc.get(0), Toast.LENGTH_SHORT).show();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            new srcLinkAsync().execute(linkToSrc).get();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         } catch (ExecutionException e) {
