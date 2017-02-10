@@ -4,11 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import io.realm.Realm;
 
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private Button startButton, fillDBButton;
     private Realm realm;
     private Document doc;
+    private ArrayList<String> linkToSrc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,14 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new JsoupAsync().execute("http://www.toonova.net/chowder");
+                        try {
+                            linkToSrc = new linkToSrcAsync().execute("http://www.toonova.net/chowder").get();
+                            Toast.makeText(MainActivity.this, linkToSrc.get(0), Toast.LENGTH_SHORT).show();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
