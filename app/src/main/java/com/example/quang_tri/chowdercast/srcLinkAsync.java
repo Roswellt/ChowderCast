@@ -25,6 +25,7 @@ public class srcLinkAsync extends AsyncTask<ArrayList<String>, Void, ArrayList<S
     protected ArrayList<String> doInBackground(ArrayList<String>... params) {
         linkToSrc = params[0];
         Iterator<String> iter = linkToSrc.iterator();
+        srcLink = new ArrayList<>();
 
         while(iter.hasNext()){
             String currentLink = iter.next();
@@ -33,10 +34,12 @@ public class srcLinkAsync extends AsyncTask<ArrayList<String>, Void, ArrayList<S
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Element iframe = doc.select("div iframe").first();
+            Element iframe = doc.select("div.vmargin div iframe").first();
             srcLink.add(iframe.attr("src"));
         }
 
+
         return srcLink;
     }
+
 }
