@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Button startButton;
+    private Button startButton, fillDBButton;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        realm = Realm.getDefaultInstance();
         addButton();
     }
 
@@ -24,6 +27,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //TODO
+                    }
+                }
+        );
+        fillDBButton = (Button) findViewById(R.id.fillDB);
+        fillDBButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
                     }
                 }
         );
