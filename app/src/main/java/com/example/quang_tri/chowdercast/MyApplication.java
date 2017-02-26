@@ -5,6 +5,11 @@ import android.app.Application;
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -22,7 +27,24 @@ public class MyApplication extends Application {
                         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                         .build());
         Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
+        RealmConfiguration config = new RealmConfiguration.Builder().initialData(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+                //TODO
+                BufferedReader reader = null;
+                try{
+                    reader = new BufferedReader(
+                            new InputStreamReader(getAssets().open("adblock.txt"))
+                    );
+                    String line;
+                    while((line = reader.readLine()) != null){
+                        realm.
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
     }
 }

@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startButton, fillDBButton;
     private Realm realm;
-    private ArrayList<String> linkToSrc, srcLink;
+    private ArrayList<String> linkToSrc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,28 +35,26 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent("com.example.quang_tri.chowdercast.SearchResults");
+                        Intent intent = new Intent("com.example.quang_tri.chowdercast.WebView");
                         startActivity(intent);
                     }
                 }
         );
+
+        //Can't use jsoup to scrape episode links because of cloudflare
+        /**
         fillDBButton = (Button) findViewById(R.id.fillDB);
         fillDBButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        try {
-                            linkToSrc = new linkToSrcAsync().execute("http://www.toonova.net/chowder").get();
-                            //Toast.makeText(MainActivity.this, linkToSrc.get(0), Toast.LENGTH_SHORT).show();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
+                        realm.beginTransaction();
+                        realm.deleteAll();
+                        realm.commitTransaction();
 
                         try {
-                            srcLink = new srcLinkAsync().execute(linkToSrc).get();
-                            Toast.makeText(MainActivity.this, srcLink.get(0), Toast.LENGTH_SHORT).show();
+                            linkToSrc = new linkToSrcAsync().execute("http://kisscartoon.se/Cartoon/Chowder").get();
+                            Toast.makeText(MainActivity.this, linkToSrc.get(0), Toast.LENGTH_SHORT).show();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         } catch (ExecutionException e) {
@@ -66,13 +64,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+         **/
     }
     private void addToRealm(){
-        Iterator<String> iter = srcLink.iterator();
+        Iterator<String> iter = linkToSrc.iterator();
         realm.beginTransaction();
         while (iter.hasNext()){
-            String srcLink = iter.next();
-            Episodes newEp = new Episodes(srcLink);
+            String link = iter.next();
+            Episodes newEp = new Episodes(link);
             realm.copyToRealm(newEp);
         }
         realm.commitTransaction();

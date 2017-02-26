@@ -32,11 +32,16 @@ public class SearchResults extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                Intent intent = new Intent("com.example.quang_tri.chowdercast.WebView");
                 Episodes ep = (Episodes) parent.getItemAtPosition(position);
                 String link = ep.getLink();
-                intent.setDataAndType(Uri.parse(link), "video/*");
-                startActivity(Intent.createChooser(intent,null));
+                intent.putExtra("link", link);
+
+
+                //Intent intent = new Intent(Intent.ACTION_VIEW);
+                //intent.setDataAndType(Uri.parse(link), "video/*");
+                startActivity(intent);
             }
         });
     }
