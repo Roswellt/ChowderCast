@@ -18,19 +18,24 @@ public class Adblocker {
 
     public static class AdBlocker {
 
-        public static boolean isAd(String url, Realm realm) {
+        private static Realm realm = Realm.getDefaultInstance();
+
+        public static boolean isAd(String url) {
             Uri httpUrl = Uri.parse(url);
-            return isAdHost(httpUrl != null ? httpUrl.getHost() : "", realm);
+            return isAdHost(httpUrl != null ? httpUrl.getHost() : "");
         }
 
-        private static boolean isAdHost(String host, Realm realm) {
+        private static boolean isAdHost(String host) {
             if (TextUtils.isEmpty(host)) {
                 return false;
             }
             int index = host.indexOf(".");
             RealmResults results = realm.where(Ad.class).equalTo("hostname", host).findAll();
+            if(index == -1 && results.size() == 0){
+                return false;
+            }
             return index >= 0 && (results.size()!=0) ||
-                    index + 1 < host.length() && isAdHost(host.substring(index + 1), realm);
+                    index + 1 < host.length() && isAdHost(host.substring(index + 1));
         }
 
         public static WebResourceResponse createEmptyResource() {

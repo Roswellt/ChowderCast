@@ -30,18 +30,27 @@ public class MyApplication extends Application {
         RealmConfiguration config = new RealmConfiguration.Builder().initialData(new Realm.Transaction(){
             @Override
             public void execute(Realm realm) {
-                //TODO
+
                 BufferedReader reader = null;
                 try{
                     reader = new BufferedReader(
-                            new InputStreamReader(getAssets().open("adblock.txt"))
+                            new InputStreamReader(getResources().openRawResource(R.raw.adblock))
                     );
                     String line;
                     while((line = reader.readLine()) != null){
-                        realm.
+                        Ad entry = new Ad(line);
+                        realm.copyToRealm(entry);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                } finally {
+                    if(reader != null){
+                        try {
+                            reader.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }).deleteRealmIfMigrationNeeded().build();

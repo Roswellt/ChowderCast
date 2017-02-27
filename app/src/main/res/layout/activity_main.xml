@@ -18,21 +18,6 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="Welcome to ChowderCast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/welcomeText"
-                android:layout_weight="1"
-                android:textColor="@android:color/background_dark"
-                android:textSize="30sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="350dp"

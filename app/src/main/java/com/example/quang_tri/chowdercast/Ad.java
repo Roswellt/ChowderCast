@@ -7,14 +7,14 @@ import io.realm.annotations.PrimaryKey;
  * Created by Quang-Tri on 25/02/2017.
  */
 
-public class Ads extends RealmObject {
+public class Ad extends RealmObject {
 
     @PrimaryKey
     String hostname;
 
-    public Ads(){}
+    public Ad(){}
 
-    public Ads(String hostname){
+    public Ad(String hostname){
         this.hostname = hostname;
     }
 

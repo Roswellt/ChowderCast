@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import org.jsoup.nodes.Document;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
@@ -18,7 +21,7 @@ import io.realm.Realm;
 public class MainActivity extends AppCompatActivity {
 
     private Button startButton, fillDBButton;
-    private Realm realm;
+    public Realm realm;
     private ArrayList<String> linkToSrc;
 
     @Override
@@ -75,5 +78,11 @@ public class MainActivity extends AppCompatActivity {
             realm.copyToRealm(newEp);
         }
         realm.commitTransaction();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }
