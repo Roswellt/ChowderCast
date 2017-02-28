@@ -31,7 +31,7 @@ public class WebView extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(android.webkit.WebView view, String url) {
-                if(url.endsWith("ck2")) {
+                if(url.endsWith("ck2") || url.contains("redirector.googlevideo.com")) {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setDataAndType(Uri.parse(url), "video/*");
                     startActivity(i);
