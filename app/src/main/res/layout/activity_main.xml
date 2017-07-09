@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@mipmap/chowder"
+    android:background="@mipmap/tv"
     tools:context="com.example.quang_tri.chowdercast.MainActivity">
 
     <LinearLayout
@@ -17,29 +17,35 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="350dp"
-            android:layout_marginLeft="100dp">
+            android:orientation="horizontal">
 
             <Button
-                android:text="start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/startButton"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textColor="@android:color/background_dark" />
-
-            <Button
-                android:text="fillDB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fillDB"
                 android:layout_weight="1"
+                android:text="start"
+                android:textColor="@android:color/background_dark"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/fillDB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="fillDB"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Test" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

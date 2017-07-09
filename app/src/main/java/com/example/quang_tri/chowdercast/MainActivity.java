@@ -1,6 +1,7 @@
 package com.example.quang_tri.chowdercast;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +21,7 @@ import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button startButton, fillDBButton;
+    private Button startButton, fillDBButton, testButton;
     public Realm realm;
     private ArrayList<String> linkToSrc;
 
@@ -43,6 +44,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        testButton = (Button) findViewById(R.id.test);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                String url = "https://www389.playercdn.net/87/3/vzfe3ZuU06hgCnWeEd0uLg/1499639331/170627/547FH00NQF6V3F6QCVRRF.mp4";
+                i.setDataAndType(Uri.parse(url), "video/*");
+                startActivity(i);
+            }
+        });
 
         //Can't use jsoup to scrape episode links because of cloudflare
         /**
