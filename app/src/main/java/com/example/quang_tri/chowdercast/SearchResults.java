@@ -33,7 +33,7 @@ public class SearchResults extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent("com.example.quang_tri.chowdercast.WebView");
+                Intent intent = new Intent("com.example.quang_tri.chowdercast.WebviewActivity");
                 Episodes ep = (Episodes) parent.getItemAtPosition(position);
                 String link = ep.getLink();
                 intent.putExtra("link", link);

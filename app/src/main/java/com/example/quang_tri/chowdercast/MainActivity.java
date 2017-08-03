@@ -4,26 +4,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.jsoup.nodes.Document;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
-
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button startButton, fillDBButton, testButton;
+    private Button startButton, testButton;
     public Realm realm;
-    private ArrayList<String> linkToSrc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent("com.example.quang_tri.chowdercast.WebView");
+                        Intent intent = new Intent("com.example.quang_tri.chowdercast.WebviewActivity");
                         startActivity(intent);
                     }
                 }
@@ -49,47 +41,27 @@ public class MainActivity extends AppCompatActivity {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String url = "https://openload.co/stream/S5rcrkUS8JU~1501814182~70.29.0.0~DrHc21bD?mime=true";
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                String url = "https://www389.playercdn.net/87/3/vzfe3ZuU06hgCnWeEd0uLg/1499639331/170627/547FH00NQF6V3F6QCVRRF.mp4";
                 i.setDataAndType(Uri.parse(url), "video/*");
                 startActivity(i);
             }
         });
-
-        //Can't use jsoup to scrape episode links because of cloudflare
-        /**
-        fillDBButton = (Button) findViewById(R.id.fillDB);
-        fillDBButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        realm.beginTransaction();
-                        realm.deleteAll();
-                        realm.commitTransaction();
-
-                        try {
-                            linkToSrc = new linkToSrcAsync().execute("http://kisscartoon.se/Cartoon/Chowder").get();
-                            Toast.makeText(MainActivity.this, linkToSrc.get(0), Toast.LENGTH_SHORT).show();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                        addToRealm();
-                    }
-                }
-        );
-         **/
     }
-    private void addToRealm(){
-        Iterator<String> iter = linkToSrc.iterator();
-        realm.beginTransaction();
-        while (iter.hasNext()){
-            String link = iter.next();
-            Episodes newEp = new Episodes(link);
-            realm.copyToRealm(newEp);
+
+    public boolean isAd(String url) {
+        Uri httpUrl = Uri.parse(url);
+        return isAdHost(httpUrl != null ? httpUrl.getHost() : "");
+    }
+
+    private boolean isAdHost(String host) {
+        if (TextUtils.isEmpty(host)) {
+            return false;
         }
-        realm.commitTransaction();
+        Ad results = realm.where(Ad.class).equalTo("hostname", host).findFirst();
+        int index = host.indexOf(".");
+        return index >= 0 && (results!=null ||
+                index + 1 < host.length() && isAdHost(host.substring(index + 1)));
     }
 
     @Override

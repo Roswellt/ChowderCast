@@ -29,13 +29,10 @@ public class Adblocker {
             if (TextUtils.isEmpty(host)) {
                 return false;
             }
+            Ad results = realm.where(Ad.class).equalTo("hostname", host).findFirst();
             int index = host.indexOf(".");
-            RealmResults results = realm.where(Ad.class).equalTo("hostname", host).findAll();
-            if(index == -1 && results.size() == 0){
-                return false;
-            }
-            return index >= 0 && (results.size()!=0) ||
-                    index + 1 < host.length() && isAdHost(host.substring(index + 1));
+            return index >= 0 && (results!=null ||
+                    index + 1 < host.length() && isAdHost(host.substring(index + 1)));
         }
 
         public static WebResourceResponse createEmptyResource() {

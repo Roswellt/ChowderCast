@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,12 +23,11 @@ import java.util.Map;
 
 import io.realm.Realm;
 
-public class WebView extends AppCompatActivity {
+public class WebviewActivity extends AppCompatActivity {
 
     private android.webkit.WebView webview;
     private Realm realm;
     private Map<String, Boolean> loadedUrls = new HashMap<>();
-    private Button testButton;
     private String htmlUrl, absoluteUrl;
 
     @Override
@@ -34,17 +35,25 @@ public class WebView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
         realm = Realm.getDefaultInstance();
-        htmlUrl = "https://9anime.to/";
-        addButton();
+        htmlUrl = "https://yesmovies.to/movie/steven-universe-season-4-15469/811873-6/watching.html";
+        String newUA= "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36";
         webview = (android.webkit.WebView) findViewById(R.id.webview);
         webview.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        webview.getSettings().setDomStorageEnabled(true);
+        webview.getSettings().setAppCacheEnabled(true);
+        webview.getSettings().setAppCachePath(getApplicationContext().getFilesDir().getAbsolutePath() + "/cache");
+        webview.getSettings().setDatabaseEnabled(true);
+        webview.getSettings().setDatabasePath(getApplicationContext().getFilesDir().getAbsolutePath() + "/databases");
         webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setUserAgentString(newUA);
         webview.setWebViewClient(new WebViewClient() {
 
-            //Commenting out some of this part so I can test Jsoup
 
             @Override
             public boolean shouldOverrideUrlLoading(android.webkit.WebView view, String url) {
+/*                if(url.contains("yesmovies")) {
+                    return false;
+                } else return true;*/
                 /*
                 if(url.endsWith("ck2") || url.contains("redirector.googlevideo.com")) {
                     Intent i = new Intent(Intent.ACTION_VIEW);
@@ -52,12 +61,10 @@ public class WebView extends AppCompatActivity {
                     startActivity(i);
                     return true;
                 } else {
-                    Toast.makeText(WebView.this, url, Toast.LENGTH_LONG).show();
+                    Toast.makeText(WebviewActivity.this, url, Toast.LENGTH_LONG).show();
                     return false;
                 }
                 */
-                htmlUrl = url;
-                Toast.makeText(WebView.this, htmlUrl, Toast.LENGTH_LONG);
                 return false;
             }
 
@@ -74,7 +81,18 @@ public class WebView extends AppCompatActivity {
                 return ad ? Adblocker.AdBlocker.createEmptyResource() :
                         super.shouldInterceptRequest(view, url);
                 }
+            @Override
+            public void onLoadResource(WebView view, String url)  {
+                super.onLoadResource(view, url);
+                //WORKS!!
+                if(url.contains(".mp4?mime=true") || url.contains("key=ck2") || url.contains("3.bp.blogspot.com")) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setDataAndType(Uri.parse(url), "video/*");
+                    startActivity(i);
+                }
+            }
             });
+        webview.setWebChromeClient(new WebChromeClient());
         webview.loadUrl(htmlUrl);
     }
 
@@ -87,16 +105,6 @@ public class WebView extends AppCompatActivity {
         }
     }
 
-    private void addButton() {
-        testButton = (Button) findViewById(R.id.test);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
-                jsoupAsyncTask.execute();
-            }
-        });
-    }
 
     private class JsoupAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -120,7 +128,7 @@ public class WebView extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void result) {
-            Toast.makeText(WebView.this, absoluteUrl, Toast.LENGTH_LONG).show();
+            Toast.makeText(WebviewActivity.this, absoluteUrl, Toast.LENGTH_LONG).show();
         }
     }
 
