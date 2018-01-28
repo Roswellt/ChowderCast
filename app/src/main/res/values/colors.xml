@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="courseColor0">#ede6ed</color>
+    <color name="courseColor1">#c62828</color>
+    <color name="courseColor2">#6A1B9A</color>
+    <color name="courseColor3">#0277BD</color>
+    <color name="courseColor4">#00695c</color>
+    <color name="courseColor5">#2E7D32</color>
+    <color name="courseColor6">#F9A825</color>
+    <color name="courseColor7">#D84315</color>
+    <color name="courseColor8">#37474f</color>
+    <color name="courseColor9">#FF91E7</color>
+    <color name="courseColor0a">#7D848E</color>
+    <color name="courseColor1a">#d44d4d</color>
+    <color name="courseColor2a">#9744c9</color>
+    <color name="courseColor3a">#3897cf</color>
+    <color name="courseColor4a">#2d887d</color>
+    <color name="courseColor5a">#5DA160</color>
+    <color name="courseColor6a">#FFBD53</color>
+    <color name="courseColor7a">#D87354</color>
+    <color name="courseColor8a">#596C75</color>
+    <color name="courseColor9a">#F9C5EE</color>
 </resources>

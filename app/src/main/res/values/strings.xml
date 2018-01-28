@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ChowderCast</string>
+    <string name="title_activity_test">test</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="drawer_header_title">List of available source links</string>
 </resources>
